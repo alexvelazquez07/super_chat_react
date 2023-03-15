@@ -1,35 +1,20 @@
-import Message from "../models/message.js";
-
-
+import Message from '../models/message.js'
 
 var controller = {
-    //funcion para guardar los mensajes
-    save: (req, res) => {
-        var params = req.body
-        var message = new Message()
-        message.message = params.message
-        message.from= params.from
 
-        message.create((error, messageStored)=> {
-            if (error || !messageStored){
-                return res.status(404).send({
-                    status : 'error',
-                    message : 'No ha sido posible guardar el mensaje'
-                })
-            }
-            return res.status(200).send({
-                status : 'Success',
-                messageStored
-            })
-        })
-
-    },
-    //Crear mensaje
+//Guardar mensajes
  crearMensaje:(req, res)=>{
-    Message.create(req.body)
+
+    var params = req.body
+    var message = new Message()
+    message.message = params.message
+    message.from = params.from
+    console.log(message)
+
+    Message.create(params)
     .then((resultado)=>{
         console.log(req.body)
-        res.json(resultado)
+        res.json(resultado,messageStored)
         return res.status(200).send({
             status : 'Success',
             messageStored
@@ -42,38 +27,55 @@ var controller = {
         })
     })
   },
-    //Funcion para obtener todos los mensajes
-    getMessages: (req, res) => {
-        console.log('Llegue hasta aca')
-        var query = Message.find({})
-        query.sort('-_id').then((error, messages) => {
-           
-            if (error){
-                return  res.status(500).send({
-                    status : 'Error',
-                    messages : "Error al extraer los datos"
-                    
-                })
-            }
-            if (!messages){
-                return  res.status(404).send({
-                    status : 'Error',
-                    messages : "No hay mensajes que mostrar"
+    //Función para guardar un mensaje
+    save: (req, res) => {
+        var params = req.body
+        var message = new Message()
+        message.message = params.message
+        message.from = params.from
+        console.log(message)
+        message.save((error, messageStored) =>{
+            if(error || !messageStored){
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'No ha sido posible guardar el mensaje'
                 })
             }
             return res.status(200).send({
-                status : 'Success',
-                messages
-
+                status: 'success',
+                messageStored
             })
+
         })
     },
-    get_all: (req, res) =>{
-        Message.find()
-        .then(messages =>res.json(messages))
-        .catch(err => res.json({message:"hubo un error"+err}));
-      }
-    
+
+    //Función para obtener los mensajes
+    getMessages: (req, res) => {
+        var query = Message.find({})
+
+        query.sort('-_id').then((error, messages) => {
+            if(error){
+				return res.status(500).send({
+					status: "error",
+					message: "Error al extraer los datos"
+				})
+			}
+
+			//Si no existen artículos:
+			if(!messages){
+				return res.status(404).send({
+					status: "error",
+					message: "No hay mensajes para mostrar"
+				})
+			}
+
+			return res.status(200).send({
+				status: "success",
+				messages
+			})
+
+        })
+    }
 }
 
 export default controller
