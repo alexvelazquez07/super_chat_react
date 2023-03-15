@@ -5,7 +5,7 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2';
 //Conexión para escuchar y enviar eventos
-const socket = io('http://54.146.13.44:4000')
+const socket = io('http://100.25.29.130/:4000')
 
 
 function App() {
