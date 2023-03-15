@@ -1,10 +1,16 @@
-import mongoose from "mongoose";
-var Schema = mongoose.Schema
+import {mongoose} from 'mongoose';
 
-var MessageScheme = new Schema( {
+var Schema = mongoose.Schema;
 
-    message : String,
-    from : String
-})
+var MessageSchema = new Schema({
+ 
+      message: { 
+        type: String 
+      },
+      from: { 
+        type: String 
+      },
+    },{ timestamps: true }
+)
 
-export default mongoose.model('Message', MessageScheme)
+export default mongoose.model('Message', MessageSchema)

@@ -7,17 +7,13 @@ import mongoose from 'mongoose'
 import router from './routes/message.js'
 import bodyParser from 'body-parser'
 
-
-//Configuracion Mongoose 
-//var url = "mongodb://localhost:27017"
-//Para evitar posible fallas con la comuncion con MongoDB
-
+//Mongoose configuration **********************************************************
+var url = 'mongodb://127.0.0.1:27017/chat'
+//Configuración para evitar fallos en la conexión con mongoDB
+mongoose.Promise = global.Promise;
 
 const app = express()
 const PORT = 4000
-
-//require('./config/mongoose.config')
-
 //Creamos el servidor con el módulo http de node
 const server = http.createServer(app)
 //Utilizamos como servidor el proporcionado por socket.io. Configuramos cors indicando que cualquier servidor se puede conectar
@@ -29,13 +25,16 @@ const io = new SocketServer(server, {
 
 //Middlewares
 app.use(cors())
+
+//Vemos las peticiones por consola utilizando el paquete morgan en modo dev
 app.use(morgan('dev'))
+
 //Cargamos el bodyParser: middleware para analizar cuerpos de a través de la URL
 //Este analizador acepta solo la codificación UTF-8 contenida en el body
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({ extended: false }));
+
 //Cualquier tipo de petición lo convertimos a json:
-app.use(bodyParser.json())
-app.use('/api',router)
+app.use(bodyParser.json());
 
 //Escuchamos la conexión de los clientes. Podemos imprimir el id del cliente conectado
 io.on('connection', (socket) =>{
@@ -51,22 +50,15 @@ io.on('connection', (socket) =>{
         })
     })
 })
-//Conexion a la BDD y escuchamos la aplicacion a trávez del puerto 4000
-/*mongoose.connect(url,{useNewUrlParser: true}).then(()=> {
-    console.log('Conexion a la BD realizada con éxito')
-    server.listen(PORT, ()=> {
-        console.log('Servidor ejecutándose en http://localhost:', PORT)
-    })
-}) */
-mongoose.connect('mongodb://127.0.0.1:27017/chat', {
-    useNewUrlParser : true,
-    useUnifiedTopology : true
+
+//**** Ficheros ruta **************************************************************
+app.use('/api', router);
+
+
+//Nos conectamos a mongoDB. Opción { useNewUrlParser: true } para utilizar las últimas funcionalidades de mongoDB
+mongoose.connect(url, { useNewUrlParser: true }).then(() =>{
+    console.log('Conexión con la BDD realizada con éxito!!!');
+    server.listen(PORT, () =>{
+		console.log('servidor ejecutándose en http://localhost:', PORT );
+	});
 })
- .then(() => console.log('Conexion exitosa'))
- .catch(err => console.log('Problemas al conectar la base de datos : ',))
-
-
-app.listen(PORT, ()=>{
-    console.log('Servidor corriendo en el puerto: ' + PORT)
-})
-
