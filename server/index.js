@@ -38,8 +38,8 @@ app.use(bodyParser.json());
 
 //Escuchamos la conexión de los clientes. Podemos imprimir el id del cliente conectado
 io.on('connection', (socket) =>{
-    //console.log('user connected')
-    //console.log(socket.id)
+    console.log('user connected')
+    console.log(socket.id)
 
     socket.on('message', (message, nickname) => {
         console.log(message)

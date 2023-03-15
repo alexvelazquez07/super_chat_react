@@ -3,8 +3,9 @@ import './App.css';
 import io from 'socket.io-client'
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+import Swal from 'sweetalert2';
 //Conexión para escuchar y enviar eventos
-const socket = io('http://localhost:4000')
+const socket = io('http://54.146.13.44:4000')
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
   const [storedMessages, setStoredMessages] = useState([])
   const [firstTime, setfirstTime] = useState(false)
 
-  const url = "http://localhost:4000/api/"
+  const url = "http://192.168.112.34:4000/api/"
 
   useEffect(() =>{
     const receivedMessage = (message) =>{
@@ -50,8 +51,11 @@ function App() {
 
     //Enviamos el mensaje sólo si se ha establecido un nickname
     if(nickname !== ''){
-      //console.log(message)
-      //Enviamos el mensaje al servidor
+
+      //Validamos que el campo de Mensaje no este vacio
+      if (message !== '') {
+       //console.log(message)
+       //Enviamos el mensaje al servidor
       socket.emit('message', message, nickname)
 
       //Nuestro mensaje
@@ -69,9 +73,18 @@ function App() {
         message: message,
         from: nickname
       })
+      } else {
+       // alert('Para enviar mensajes debes escribir un mensaje!!!')
+       Swal.fire('Error', 'Para enviar mensajes debes escribir un mensaje!!!','error')
+      
+      }
 
-    }else{
-      alert('Para enviar mensajes debes establecer un nickname!!!')
+    }
+    
+    
+    else{
+     // alert('Para enviar mensajes debes establecer un nickname!!!')
+     Swal.fire('Error', 'Para enviar mensajes debes establecer un nickname!!!','error')
     }
     
   }
@@ -79,7 +92,7 @@ function App() {
   const nicknameSubmit = (e) => {
     e.preventDefault()
     setNickname(nickname)
-    //console.log(nickname)
+    console.log(nickname)
     setDisabled(true)
   }
 
