@@ -13,7 +13,7 @@ var url = 'mongodb://127.0.0.1:27017/chat'
 mongoose.Promise = global.Promise;
 
 const app = express()
-const PORT = 4000
+const PORT = 8000
 //Creamos el servidor con el módulo http de node
 const server = http.createServer(app)
 //Utilizamos como servidor el proporcionado por socket.io. Configuramos cors indicando que cualquier servidor se puede conectar
