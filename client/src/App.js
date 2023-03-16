@@ -131,7 +131,7 @@ function App() {
 
                 {messages.map((message, index) => (
                   <div key={index} className={`d-flex p-3 ${message.from === "Yo" ? "justify-content-end" : "justify-content-start"}`}>
-                    <div className={`card mb-3 shadow border-1 ${message.from === "Yo" ? "bg-success bg-opacity-25" : "bg-light"}`}>
+                    <div className={`card mb-3 shadow border-1 ${message.from === "Yo" ? "estilo bg-opacity-25" : "bg-light"}`}>
                       <div className="card-body">
                         <small className="">{message.from}: {message.body}</small>
                       </div>
