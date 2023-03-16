@@ -1,7 +1,7 @@
 mongoose.Promise = global.Promise
 const mongoose = require ('mongose')
 
-mongoose.connect('mongodb://100.25.29.130:27017/chat', {
+mongoose.connect('mongodb://127.0.0.1:27017/chat', {
     useNewUrlParser : true,
     useUnifiedTopology : true
 })
