@@ -5,7 +5,7 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 import Swal from 'sweetalert2';
 //Conexión para escuchar y enviar eventos
-const socket = io('http://100.25.29.130/:4000')
+const socket = io('http://localhost:4000')
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
   const [storedMessages, setStoredMessages] = useState([])
   const [firstTime, setfirstTime] = useState(false)
 
-  const url = "http://192.168.112.34:4000/api/"
+  const url = "http://localhost:4000/api/"
 
   useEffect(() =>{
     const receivedMessage = (message) =>{
