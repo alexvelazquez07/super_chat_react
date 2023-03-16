@@ -14,3 +14,7 @@ background: linear-gradient(to right, #4286f4, #373B44); /* W3C, IE 10+/ Edge, F
   overflow-y: scroll;
 
 }
+
+.estilo{
+  background-color: #1984 !important;
+}
